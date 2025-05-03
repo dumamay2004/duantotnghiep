@@ -43,7 +43,6 @@ public class DonThuocController {
         return "bacsi/taodonthuoc";
     }
 
-
     // ✅ Lưu đơn thuốc vào DB
     @PostMapping("/luu")
     public String luuDonThuoc(@ModelAttribute("donThuoc") DonThuoc donThuoc) {
@@ -62,11 +61,10 @@ public class DonThuocController {
 
     }
 
-
     // ✅ Hiển thị danh sách đơn thuốc theo mã bệnh án
     @GetMapping("/danhsach")
     public String hienThiDanhSachDonThuoc(@RequestParam("maBenhAn") Integer maBenhAn, Model model) {
-        List<DonThuoc> danhSachDonThuoc = donThuocService.findByMaBenhAn(maBenhAn);
+        List<DonThuoc> danhSachDonThuoc = donThuocService.findByBenhAn(maBenhAn);
         model.addAttribute("danhSachDonThuoc", danhSachDonThuoc);
         model.addAttribute("maBenhAn", maBenhAn);
         return "bacsi/danhsachdonthuoc";

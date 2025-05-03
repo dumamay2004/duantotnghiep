@@ -45,4 +45,8 @@ public class HoaDonService {
         hoadDonDao.save(hoaDonLichKham);
     }
 
+    public Optional<HoaDonLichKham> findByMaLichKham(Integer maLichKham) {
+        return hoadDonDao.findByLichKham_MaLichKham(maLichKham);
+    }
+
 }

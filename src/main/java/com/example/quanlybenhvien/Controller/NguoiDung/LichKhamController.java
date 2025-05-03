@@ -20,10 +20,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.quanlybenhvien.Entity.BacSi;
 import com.example.quanlybenhvien.Entity.BenhNhan;
 import com.example.quanlybenhvien.Entity.ChuyenKhoa;
+import com.example.quanlybenhvien.Entity.HoaDonLichKham;
 import com.example.quanlybenhvien.Entity.LichKham;
 import com.example.quanlybenhvien.Service.BacSiService;
 import com.example.quanlybenhvien.Service.BenhNhanService;
 import com.example.quanlybenhvien.Service.ChuyenKhoaService;
+import com.example.quanlybenhvien.Service.HoaDonService;
 import com.example.quanlybenhvien.Service.LichKhamService;
 
 import jakarta.servlet.http.HttpSession;
@@ -40,6 +42,9 @@ public class LichKhamController {
 
     @Autowired
     private BacSiService bacSiService;
+
+    @Autowired
+    private HoaDonService hoaDonService;
 
     @Autowired
     BenhNhanService benhNhanService;
@@ -154,6 +159,7 @@ public class LichKhamController {
 
         return "lichsudatlich";
     }
+
     @GetMapping("/huylichkham")
     public String huyLichKham(@RequestParam("maLichKham") Integer maLichKham,
             RedirectAttributes redirectAttributes) {
@@ -175,5 +181,19 @@ public class LichKhamController {
 
         return "redirect:/nguoidung/lichkham/lichsu";
 
+    }
+
+    @GetMapping("/xemhoadon")
+    public String xemHoaDon(@RequestParam("maLichKham") Integer maLichKham, Model model,
+            RedirectAttributes redirectAttributes) {
+        Optional<HoaDonLichKham> optionalHoaDon = hoaDonService.findByMaLichKham(maLichKham);
+
+        if (optionalHoaDon.isPresent()) {
+            model.addAttribute("hoaDon", optionalHoaDon.get());
+            return "lichsuhoadon";
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy hóa đơn cho lịch khám này.");
+            return "redirect:/nguoidung/lichkham/lichsu";
+        }
     }
 }
