@@ -1,5 +1,10 @@
 package com.example.quanlybenhvien.Controller.NguoiDung;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,6 +107,36 @@ public class LichKhamController {
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Chuyên khoa không hợp lệ!");
             return "redirect:/nguoidung/lichkham";
+        }
+
+        // Kiểm tra giờ đặt lịch
+        LocalTime startTime = LocalTime.of(7, 30); // 7h30
+        LocalTime endTime = LocalTime.of(16, 0); // 16h00
+        LocalTime appointmentTime = lichKham.getGioKham(); // Lấy thời gian đặt lịch từ LichKham
+
+        if (appointmentTime.isBefore(startTime) || appointmentTime.isAfter(endTime)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Giờ đặt lịch phải trong khoảng từ 7h30 đến 16h00!");
+            return "redirect:/nguoidung/lichkham";
+        }
+
+        // Kiểm tra ngày đặt lịch (ví dụ, chỉ cho phép đặt trong các ngày làm việc)
+        LocalDate appointmentDate = lichKham.getNgayKham(); // Lấy ngày đặt lịch
+        LocalDate today = LocalDate.now();
+
+        if (appointmentDate.isBefore(today)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ngày đặt lịch không hợp lệ!");
+            return "redirect:/nguoidung/lichkham";
+        }
+
+        // Kiểm tra nếu đã có lịch khám tại giờ đã chọn trong ngày đặt lịch
+        List<LichKham> existingAppointments = lichKhamService.findByNgayKhamAndChuyenKhoa(appointmentDate,
+                chuyenKhoa.get());
+        for (LichKham existingAppointment : existingAppointments) {
+            if (existingAppointment.getGioKham().equals(appointmentTime)) {
+                redirectAttributes.addFlashAttribute("errorMessage",
+                        "Giờ này đã có người đặt lịch rồi, vui lòng chọn giờ khác.");
+                return "redirect:/nguoidung/lichkham";
+            }
         }
 
         // Kiểm tra nếu người dùng đăng nhập bằng tài khoản thông thường

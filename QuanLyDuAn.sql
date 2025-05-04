@@ -110,7 +110,7 @@ CREATE TABLE LICHKHAM (
     ma_chuyen_khoa VARCHAR(20) NOT NULL,
 	ma_bac_si varchar(20) NULL,
     ngay_kham DATE NOT NULL,
-    gio_kham TIME  NOT NULL,
+    gio_kham TIME(0) NOT NULL DEFAULT '00:00:00',
     trang_thai NVARCHAR(50) NOT NULL,
     ghi_chu NVARCHAR(255) NOT NULL,
     FOREIGN KEY (ma_benh_nhan) REFERENCES BENHNHAN(ma_benh_nhan),
@@ -118,6 +118,12 @@ CREATE TABLE LICHKHAM (
     FOREIGN KEY (ma_chuyen_khoa) REFERENCES CHUYENKHOA(ma_chuyen_khoa),
 	FOREIGN KEY (ma_bac_si) REFERENCES BACSI(ma_bac_si),
 );
+
+/*ALTER TABLE LICHKHAM
+DROP CONSTRAINT DF__LICHKHAM__gio_kh__01142BA1;
+ALTER TABLE LICHKHAM
+DROP COLUMN gio_kham;
+ALTER TABLE LICHKHAM*/
 ALTER TABLE LICHKHAM
 ADD da_thanh_toan BIT DEFAULT 0;
 select * from LICHKHAM
@@ -125,6 +131,7 @@ select * from LICHKHAM
 SELECT COLUMN_NAME 
 FROM INFORMATION_SCHEMA.COLUMNS 
 WHERE TABLE_NAME = 'BENHAN';
+
 
 
 ALTER TABLE BENHAN
@@ -254,7 +261,7 @@ INSERT INTO VAITRO (ma_vai_tro, ten_vai_tro) VALUES
 
 -- Bảng QUANLY
 INSERT INTO QUANLY (ma_quan_ly, ho_ten, mat_khau, email, SDT, cccd, vai_tro, hinh, dia_chi)  
-VALUES ('QL001', N'Võ Nguyễn Duy Tân', '123', 'a@gmail.com', '0987654321', '123456789012', 'VT00', 'avatar.jpg', N'123 Đường ABC, TP. HCM');
+VALUES ('QL001', N'Võ Nguyễn Duy Tân', '123', 'admin@gmail.com', '0987654321', '123456789012', 'VT00', 'avatar.jpg', N'123 Đường ABC, TP. HCM');
 UPDATE QUANLY SET mat_khau = '$2a$10$RsgeqGNABvDJH6c1cCYHqetCYyat6y.cK3eMTPQBjRlLRj/NTJhRO' WHERE email = 'a@gmail.com';
 select * from HOADON_DONTHUOC
 -- Bảng CHUYENKHOA
