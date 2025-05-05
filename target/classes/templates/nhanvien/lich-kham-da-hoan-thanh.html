@@ -95,11 +95,16 @@
                         <span class="badge bg-success" th:text="${lich.trangThai}">Đã hoàn thành</span>
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-sm mb-1"
-                        th:href="@{'/nhanvien/trangchu/thanhtoan?id=' + ${lich.maLichKham}}"
-                        onclick="return confirm('Đến trang chi tiết dịch vụ?');">
-                  ✅ Tiến hành thanh toán
-                </a>
+                        <div th:if="${lich.daThanhToan}">
+                            <span class="badge bg-success">Đã thanh toán</span>
+                        </div>
+                        <div th:unless="${lich.daThanhToan}">
+                            <a class="btn btn-primary btn-sm mb-1"
+                               th:href="@{'/nhanvien/trangchu/thanhtoan?id=' + ${lich.maLichKham}}"
+                               onclick="return confirm('Đến trang thanh toán!');">
+                                ✅ Tiến hành thanh toán
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>

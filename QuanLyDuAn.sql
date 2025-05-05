@@ -122,8 +122,8 @@ CREATE TABLE LICHKHAM (
 /*ALTER TABLE LICHKHAM
 DROP CONSTRAINT DF__LICHKHAM__gio_kh__01142BA1;
 ALTER TABLE LICHKHAM
-DROP COLUMN gio_kham;
-ALTER TABLE LICHKHAM*/
+DROP COLUMN gio_kham;*/
+
 ALTER TABLE LICHKHAM
 ADD da_thanh_toan BIT DEFAULT 0;
 select * from LICHKHAM
@@ -157,6 +157,8 @@ CREATE TABLE BENHAN (
     FOREIGN KEY (ma_lich_kham) REFERENCES LICHKHAM(ma_lich_kham),
     FOREIGN KEY (ma_bac_si) REFERENCES BACSI(ma_bac_si)
 );
+
+
 -- Tạo bảng chi tiết dịch vụ
 CREATE TABLE CHITIETDICHVU (
     ma_chi_tiet_dich_vu int identity(1,1) PRIMARY KEY,
@@ -227,7 +229,7 @@ CREATE TABLE CHITIETDONTHUOC (
     FOREIGN KEY (ma_don_thuoc) REFERENCES DONTHUOC(ma_don_thuoc) ON DELETE CASCADE,
     FOREIGN KEY (ma_thuoc) REFERENCES THUOC(ma_thuoc) ON DELETE CASCADE
 );
-drop table HOADON_DONTHUOC
+
 -- Bảng HÓA ĐƠN
 CREATE TABLE HOADON_DONTHUOC (
     ma_hoa_don INT IDENTITY(1,1) PRIMARY KEY,
@@ -262,7 +264,7 @@ INSERT INTO VAITRO (ma_vai_tro, ten_vai_tro) VALUES
 -- Bảng QUANLY
 INSERT INTO QUANLY (ma_quan_ly, ho_ten, mat_khau, email, SDT, cccd, vai_tro, hinh, dia_chi)  
 VALUES ('QL001', N'Võ Nguyễn Duy Tân', '123', 'admin@gmail.com', '0987654321', '123456789012', 'VT00', 'avatar.jpg', N'123 Đường ABC, TP. HCM');
-UPDATE QUANLY SET mat_khau = '$2a$10$RsgeqGNABvDJH6c1cCYHqetCYyat6y.cK3eMTPQBjRlLRj/NTJhRO' WHERE email = 'a@gmail.com';
+UPDATE QUANLY SET mat_khau = '$2a$10$RsgeqGNABvDJH6c1cCYHqetCYyat6y.cK3eMTPQBjRlLRj/NTJhRO' WHERE email = 'admin@gmail.com';
 select * from HOADON_DONTHUOC
 -- Bảng CHUYENKHOA
 INSERT INTO CHUYENKHOA (ma_chuyen_khoa, ten_chuyen_khoa, hinh, so_luong) VALUES
